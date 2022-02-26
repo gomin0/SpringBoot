@@ -1,5 +1,6 @@
 package web;
 
+import org.boot.project.springboot.web.HelloController;
 import org.springframework.test.context.ContextConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;

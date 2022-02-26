@@ -1,9 +1,9 @@
-package web;
+package org.boot.project.springboot.web;
 
+import org.boot.project.springboot.web.dto.HelloResponseDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import web.dto.HelloResponseDto;
 
 @RestController //컨트롤러를 JASON을 반환하는 컨트롤러로
 public class HelloController {
