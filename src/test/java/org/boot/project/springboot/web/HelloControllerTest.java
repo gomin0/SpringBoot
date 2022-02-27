@@ -1,4 +1,4 @@
-package web;
+package org.boot.project.springboot.web;
 
 import org.boot.project.springboot.web.HelloController;
 import org.springframework.test.context.ContextConfiguration;
