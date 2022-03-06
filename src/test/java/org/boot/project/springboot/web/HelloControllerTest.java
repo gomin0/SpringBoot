@@ -1,11 +1,13 @@
 package org.boot.project.springboot.web;
 
-import org.boot.project.springboot.web.HelloController;
-import org.springframework.test.context.ContextConfiguration;
+import org.boot.project.springboot.config.auth.SecurityConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -17,16 +19,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 // 스프링 부트 테스트와 JUnit 사이의 연결자 역할
 @RunWith(SpringRunner.class)                        // 스프링 실행자 SpringRunner 사용
-@WebMvcTest(controllers = HelloController.class)    // Web(Spring MVC)에 집중할 수 있는 어노테이션
-
-@ContextConfiguration(classes = HelloController.class)
+@WebMvcTest(controllers = HelloController.class,
+        excludeFilters = {
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
+                        classes = SecurityConfig.class)
+        }
+)    // Web(Spring MVC)에 집중할 수 있는 어노테이션
 public class HelloControllerTest {
 
     @Autowired              // Bean 을 주입 받음
     private MockMvc mvc;    // 웹 API 테스트할 때 사용
 
+    @WithMockUser(roles = "USER")
     @Test
-    public void hello_test() throws Exception {
+    public void hello가_리턴된다() throws Exception {
         String hello = "hello";
 
         mvc.perform(get("/hello"))           // HTTP GET 요청
@@ -34,8 +40,9 @@ public class HelloControllerTest {
                 .andExpect(content().string(hello));   // 결과 검증
     }
 
+    @WithMockUser(roles = "USER")
     @Test
-    public void helloDto_test() throws Exception {
+    public void helloDto가_리턴된다() throws Exception {
         String name = "hello";
         int amount = 1000;
 
